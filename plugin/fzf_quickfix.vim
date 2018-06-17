@@ -12,6 +12,10 @@ let g:loaded_fzf_quickfix = 1
 let s:keep_cpo = &cpoptions
 set cpoptions&vim
 
+if !exists('g:fzf_quickfix_syntax_on')
+  let g:fzf_quickfix_syntax_on = 1
+endif
+
 let s:fzf_quickfix_command = get(g:, 'fzf_command_prefix', '') . 'Quickfix'
 
 execute 'command!' s:fzf_quickfix_command 'call fzf_quickfix#run()'

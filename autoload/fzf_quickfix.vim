@@ -80,7 +80,9 @@ function! fzf_quickfix#run() abort " {{{
   call extend(l:opts, get(g:, 'fzf_layout', {'down': '~40%'}))
   call fzf#run(l:opts)
 
-  call s:syntax()
+  if g:fzf_quickfix_syntax_on
+    call s:syntax()
+  endif
 endfunction " }}}
 
 let &cpoptions = s:keep_cpo
