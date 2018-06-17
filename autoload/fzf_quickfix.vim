@@ -47,10 +47,14 @@ function! s:error_handler(err) abort " {{{
     return
   endif
 
+  if empty(l:match[1]) && (bufnr(l:match[0]) == bufnr('%'))
+    return
+  endif
+
   let l:line_number = empty(l:match[1]) ? 1 : str2nr(l:match[1])
   let l:col_number = empty(l:match[2]) ? 1 : str2nr(l:match[2])
 
-  execute 'buffer' l:match[0]
+  execute 'buffer' bufnr(l:match[0])
   mark '
   call cursor(l:line_number, l:col_number)
   normal! zvzz
