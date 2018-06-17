@@ -12,7 +12,11 @@ let g:loaded_fzf_quickfix = 1
 let s:keep_cpo = &cpoptions
 set cpoptions&vim
 
-execute 'command!' get(g:, 'fzf_command_prefix', '') . 'Quickfix call fzf_quickfix#run()'
+let s:fzf_quickfix_command = get(g:, 'fzf_command_prefix', '') . 'Quickfix'
+
+execute 'command!' s:fzf_quickfix_command 'call fzf_quickfix#run()'
+
+execute 'nnoremap <silent> <Plug>(fzf-quickfix) :' . s:fzf_quickfix_command . '<CR>'
 
 let &cpoptions = s:keep_cpo
 unlet s:keep_cpo
