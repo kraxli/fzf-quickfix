@@ -7,8 +7,6 @@ scriptencoding utf-8
 let s:keep_cpo = &cpoptions
 set cpoptions&vim
 
-" TODO(filip): Syntax highlighting
-
 function! s:error_type(type, number) abort " {{{
   if a:type ==? 'W'
     let l:msg = ' warning'
@@ -60,6 +58,19 @@ function! s:error_handler(err) abort " {{{
   normal! zvzz
 endfunction " }}}
 
+function! s:syntax() abort " {{{
+  if has('syntax') && exists('g:syntax_on')
+    syntax match FzfQuickFixFileName '^[^|]*' nextgroup=FzfQuickFixSeparator
+    syntax match FzfQuickFixSeparator '|' nextgroup=FzfQuickFixLineNumber contained
+    syntax match FzfQuickFixLineNumber '[^|]*' contained contains=FzfQuickFixError
+    syntax match FzfQuickFixError 'error' contained
+
+    highlight link FzfQuickFixFileName Directory
+    highlight link FzfQuickFixLineNumber LineNr
+    highlight link FzfQuickFixError Error
+  endif
+endfunction " }}}
+
 function! fzf_quickfix#run() abort " {{{
   let l:opts = {
         \ 'source': s:get_quickfix_errors(),
@@ -68,6 +79,8 @@ function! fzf_quickfix#run() abort " {{{
         \ }
   call extend(l:opts, get(g:, 'fzf_layout', {'down': '~40%'}))
   call fzf#run(l:opts)
+
+  call s:syntax()
 endfunction " }}}
 
 let &cpoptions = s:keep_cpo
