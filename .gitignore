@@ -1,0 +1,7 @@
+# Vim
+*~
+.*.sw[a-p]
+.netrwhist
+.sw[a-p]
+Session.vim
+tags
