@@ -16,3 +16,5 @@ execute 'command!' get(g:, 'fzf_command_prefix', '') . 'Quickfix call fzf_quickf
 
 let &cpoptions = s:keep_cpo
 unlet s:keep_cpo
+
+" vim: sw=2 ts=2 et fdm=marker

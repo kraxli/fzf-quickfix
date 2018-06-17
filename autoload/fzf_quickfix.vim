@@ -7,7 +7,9 @@ scriptencoding utf-8
 let s:keep_cpo = &cpoptions
 set cpoptions&vim
 
-function! s:error_type(type, number) abort
+" TODO(filip): Syntax highlighting
+
+function! s:error_type(type, number) abort " {{{
   if a:type ==? 'W'
     let l:msg = ' warning'
   elseif a:type ==? 'I'
@@ -25,32 +27,36 @@ function! s:error_type(type, number) abort
   endif
 
   return printf('%s %3d', l:msg, a:number)
-endfunction
+endfunction " }}}
 
-function! s:format_error(item) abort
+function! s:format_error(item) abort " {{{
   return (a:item.bufnr ? bufname(a:item.bufnr) : '')
         \ . '|' . (a:item.lnum  ? a:item.lnum : '')
         \ . (a:item.col ? ' col ' . a:item.col : '')
         \ . s:error_type(a:item.type, a:item.nr)
         \ . '|' . substitute(a:item.text, '\v^\s*', ' ', '')
-endfunction
+endfunction " }}}
 
-function! s:get_quickfix_errors() abort
+function! s:get_quickfix_errors() abort " {{{
   return map(getqflist(), 's:format_error(v:val)')
-endfunction
+endfunction " }}}
 
-function! s:error_handler(err) abort
-  let l:match = matchlist(a:err, '\v^([^|]+)\|(\d+)\scol\s(\d+).*\|')[1:3]
-  if empty(l:match)
+function! s:error_handler(err) abort " {{{
+  let l:match = matchlist(a:err, '\v^([^|]*)\|(\d+)?%(\scol\s(\d+))?.*\|')[1:3]
+  if empty(l:match) || empty(l:match[0])
     return
   endif
 
-  execute 'buffer' l:match[0]
-  call cursor(l:match[1], l:match[2])
-  normal! zvzz
-endfunction
+  let l:line_number = empty(l:match[1]) ? 1 : str2nr(l:match[1])
+  let l:col_number = empty(l:match[2]) ? 1 : str2nr(l:match[2])
 
-function! fzf_quickfix#run() abort
+  execute 'buffer' l:match[0]
+  mark '
+  call cursor(l:line_number, l:col_number)
+  normal! zvzz
+endfunction " }}}
+
+function! fzf_quickfix#run() abort " {{{
   let l:opts = {
         \ 'source': s:get_quickfix_errors(),
         \ 'sink': function('s:error_handler'),
@@ -58,7 +64,9 @@ function! fzf_quickfix#run() abort
         \ }
   call extend(l:opts, get(g:, 'fzf_layout', {'down': '~40%'}))
   call fzf#run(l:opts)
-endfunction
+endfunction " }}}
 
 let &cpoptions = s:keep_cpo
 unlet s:keep_cpo
+
+" vim: sw=2 ts=2 et fdm=marker
