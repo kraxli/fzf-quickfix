@@ -65,9 +65,9 @@ function! s:syntax() abort " {{{
     syntax match FzfQuickFixLineNumber '[^|]*' contained contains=FzfQuickFixError
     syntax match FzfQuickFixError 'error' contained
 
-    highlight link FzfQuickFixFileName Directory
-    highlight link FzfQuickFixLineNumber LineNr
-    highlight link FzfQuickFixError Error
+    highlight default link FzfQuickFixFileName Directory
+    highlight default link FzfQuickFixLineNumber LineNr
+    highlight default link FzfQuickFixError Error
   endif
 endfunction " }}}
 
