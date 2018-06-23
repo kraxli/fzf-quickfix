@@ -77,8 +77,7 @@ function! fzf_quickfix#run() abort " {{{
         \ 'sink': function('s:error_handler'),
         \ 'options': '--prompt="Error> "'
         \ }
-  call extend(l:opts, get(g:, 'fzf_layout', {'down': '~40%'}))
-  call fzf#run(l:opts)
+  call fzf#run(fzf#wrap(l:opts))
 
   if g:fzf_quickfix_syntax_on
     call s:syntax()
