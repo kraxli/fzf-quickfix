@@ -16,11 +16,13 @@ if !exists('g:fzf_quickfix_syntax_on')
   let g:fzf_quickfix_syntax_on = 1
 endif
 
-let s:fzf_quickfix_command = get(g:, 'fzf_command_prefix', '') . 'Quickfix'
+execute 'command!' get(g:, 'fzf_command_prefix', '') . 'Quickfix call fzf_quickfix#run()'
 
-execute 'command!' s:fzf_quickfix_command 'call fzf_quickfix#run()'
+nnoremap <silent> <Plug>(fzf-quickfix) :call fzf_quickfix#run()<CR>
 
-execute 'nnoremap <silent> <Plug>(fzf-quickfix) :' . s:fzf_quickfix_command . '<CR>'
+if !hasmapto('<Plug>(fzf-quickfix)', 'n') && empty(maparg('<Leader>q', 'n'))
+  nmap <Leader>q <Plug>(fzf-quickfix)
+endif
 
 let &cpoptions = s:keep_cpo
 unlet s:keep_cpo
