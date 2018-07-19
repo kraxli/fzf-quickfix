@@ -79,7 +79,7 @@ function! fzf_quickfix#run() abort " {{{
         \ }
   call fzf#run(fzf#wrap(l:opts))
 
-  if g:fzf_quickfix_syntax_on
+  if !exists('g:fzf_quickfix_syntax_off')
     call s:syntax()
   endif
 endfunction " }}}
