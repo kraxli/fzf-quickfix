@@ -20,8 +20,10 @@ execute 'command!' get(g:, 'fzf_command_prefix', '') . 'Quickfix call fzf_quickf
 
 nnoremap <silent> <Plug>(fzf-quickfix) :call fzf_quickfix#run()<CR>
 
-if !hasmapto('<Plug>(fzf-quickfix)', 'n') && empty(maparg('<Leader>q', 'n'))
-  nmap <Leader>q <Plug>(fzf-quickfix)
+if !exists('g:fzf_quickfix_no_maps')
+  if !hasmapto('<Plug>(fzf-quickfix)', 'n') && empty(maparg('<Leader>q', 'n'))
+    nmap <Leader>q <Plug>(fzf-quickfix)
+  endif
 endif
 
 let &cpoptions = s:keep_cpo
