@@ -4,7 +4,7 @@ scriptencoding utf-8
 " Use of this source code is governed by an MIT license that can be
 " found in the LICENSE file.
 
-if exists('g:loaded_fzf_quickfix') || !exists('g:loaded_fzf')
+if exists('g:loaded_fzf_quickfix')
   finish
 endif
 let g:loaded_fzf_quickfix = 1
