@@ -14,7 +14,7 @@ Plug 'fszymanski/fzf-quickfix'
 
 " Lazy loading
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
-Plug 'fszymanski/fzf-quickfix, {'on': '<Plug>(fzf-quickfix)'}
+Plug 'fszymanski/fzf-quickfix', {'on': '<Plug>(fzf-quickfix)'}
 
 nmap <Leader>q <Plug>(fzf-quickfix)
 ```
