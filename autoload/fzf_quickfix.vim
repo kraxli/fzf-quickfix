@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-" Copyright (c) 2018 Filip Szymański. All rights reserved.
+" Copyright (c) 2018-2019 Filip Szymański. All rights reserved.
 " Use of this source code is governed by an MIT license that can be
 " found in the LICENSE file.
 
@@ -36,7 +36,7 @@ function! s:format_error(item) abort " {{{
 endfunction " }}}
 
 function! s:get_quickfix_errors() abort " {{{
-  return map(getqflist(), 's:format_error(v:val)')
+  return map(g:fzf_quickfix_use_loclist ? getloclist(0) : getqflist(), 's:format_error(v:val)')
 endfunction " }}}
 
 function! s:error_handler(err) abort " {{{
@@ -79,7 +79,7 @@ function! fzf_quickfix#run() abort " {{{
         \ }
   call fzf#run(fzf#wrap(l:opts))
 
-  if !exists('g:fzf_quickfix_syntax_off')
+  if g:fzf_quickfix_syntax_on
     call s:syntax()
   endif
 endfunction " }}}
@@ -87,4 +87,4 @@ endfunction " }}}
 let &cpoptions = s:keep_cpo
 unlet s:keep_cpo
 
-" vim: sw=2 ts=2 et fdm=marker
+" vim: et sw=2 ts=2 fdm=marker
