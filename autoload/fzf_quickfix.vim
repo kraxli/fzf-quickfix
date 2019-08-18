@@ -70,7 +70,7 @@ function! fzf_quickfix#run(...) abort
   call fzf#run(fzf#wrap({
         \ 'source': map(a:1 ? getloclist(0) : getqflist(), 's:format_error(v:val)'),
         \ 'sink': function('s:error_handler'),
-        \ 'options': '--prompt="Quickfix> "'
+        \ 'options': printf('--prompt="%s> "', (a:1 ? 'LocList' : 'QfList'))
         \ }))
 
   if g:fzf_quickfix_syntax_on
