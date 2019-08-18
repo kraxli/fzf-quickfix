@@ -12,21 +12,14 @@ let g:loaded_fzf_quickfix = 1
 let s:keep_cpo = &cpoptions
 set cpoptions&vim
 
-let g:fzf_quickfix_no_maps = get(g:, 'fzf_quickfix_no_maps', 0)
-let g:fzf_quickfix_syntax_on = get(g:, 'fzf_quickfix_syntax_on', 1)
-let g:fzf_quickfix_use_loclist = get(g:, 'fzf_quickfix_use_loclist', 0)
-
-execute 'command!' get(g:, 'fzf_command_prefix', '') . 'Quickfix call fzf_quickfix#run()'
-
-nnoremap <silent> <Plug>(fzf-quickfix) :call fzf_quickfix#run()<CR>
-
-if !g:fzf_quickfix_no_maps
-  if !hasmapto('<Plug>(fzf-quickfix)', 'n') && empty(maparg('<Leader>q', 'n'))
-    nmap <Leader>q <Plug>(fzf-quickfix)
-  endif
+if !exists('g:fzf_quickfix_syntax_on')
+  let g:fzf_quickfix_syntax_on = 1
 endif
+
+execute 'command! -bang' get(g:, 'fzf_command_prefix', '')
+      \ . 'Quickfix call fzf_quickfix#run("<bang>" ==# "!")'
 
 let &cpoptions = s:keep_cpo
 unlet s:keep_cpo
 
-" vim: et sw=2 ts=2 fdm=marker
+" vim: et sw=2 ts=2

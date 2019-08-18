@@ -7,9 +7,10 @@ CONTENTS                                               *fzf-quickfix-contents*
 
   1. Introduction                                 |fzf-quickfix-introduction|
   2. Configuration                                |fzf-quickfix-configuration|
-  3. License                                      |fzf-quickfix-license|
-  4. Bugs                                         |fzf-quickfix-bugs|
-  5. Contributing                                 |fzf-quickfix-contributing|
+  3. Commands                                     |fzf-quickfix-commands|
+  4. License                                      |fzf-quickfix-license|
+  5. Bugs                                         |fzf-quickfix-bugs|
+  6. Contributing                                 |fzf-quickfix-contributing|
 
 ==============================================================================
 INTRODUCTION                                       *fzf-quickfix-introduction*
@@ -19,23 +20,19 @@ INTRODUCTION                                       *fzf-quickfix-introduction*
 ==============================================================================
 CONFIGURATION                                     *fzf-quickfix-configuration*
 
-                                                      *g:fzf_quickfix_no_maps*
->
-  let g:fzf_quickfix_no_maps = 1
-<
-Default: 0 (number)
-
                                                     *g:fzf_quickfix_syntax_on*
 >
   let g:fzf_quickfix_syntax_on = 0
 <
 Default: 1 (number)
 
-                                                  *g:fzf_quickfix_use_loclist*
+==============================================================================
+COMMANDS                                               *fzf-quickfix-commands*
+
+                                                                    *Quickfix*
 >
-  let g:fzf_quickfix_use_loclist = 1
+  :Quickfix[!]
 <
-Default: 0 (number)
 
 ==============================================================================
 LICENSE                                                 *fzf-quickfix-license*
