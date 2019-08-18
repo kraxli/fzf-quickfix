@@ -21,15 +21,18 @@ INTRODUCTION                                       *fzf-quickfix-introduction*
 CONFIGURATION                                     *fzf-quickfix-configuration*
 
                                                     *g:fzf_quickfix_syntax_on*
+Set this option to `0` if you want to disable the syntax highlighting.
 >
   let g:fzf_quickfix_syntax_on = 0
 <
-Default: 1 (number)
+Type: |Number|
+Default: `1`
 
 ==============================================================================
 COMMANDS                                               *fzf-quickfix-commands*
 
                                                                     *Quickfix*
+Open a quickfix list or a location list (if [!] is given).
 >
   :Quickfix[!]
 <
