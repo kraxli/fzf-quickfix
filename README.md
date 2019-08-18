@@ -1,6 +1,6 @@
 # fzf :heart: quickfix
 
-![](https://user-images.githubusercontent.com/25827968/41820959-fa2049f6-77d9-11e8-900b-54922960c4a5.png)
+![](https://user-images.githubusercontent.com/25827968/63228948-0d8ff100-c1fb-11e9-95d8-e5df195ba18e.png)
 
 ## Requirements
 - [fzf](https://github.com/junegunn/fzf)
