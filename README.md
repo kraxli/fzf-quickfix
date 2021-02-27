@@ -24,6 +24,15 @@ nnoremap <Leader>l :Quickfix!<CR>
 
 ```
 
+You can customize the options passed to `fzf_quickfix#run(...)` by passing a dictionary to the function. E.g:
+```vim
+ nnoremap <silent><localleader>q :call fzf_quickfix#run('', {'options': ['--layout=reverse', '--info=inline', '--preview-window', 'right:60%'], 'window': {'height': 0.5,  'width': 0.6 }})<cr>
+```
+
+in this way you can redefine the default `Quicfix` commands.
+
+
+
 ## Documentation
 
 For more information, see `:help fzf_quickfix.txt`.
