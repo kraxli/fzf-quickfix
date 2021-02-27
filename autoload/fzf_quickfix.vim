@@ -6,6 +6,7 @@ scriptencoding utf-8
 
 let s:keep_cpo = &cpoptions
 set cpoptions&vim
+let s:TYPE = {'dict': type({}), 'funcref': type(function('call')), 'string': type(''), 'list': type([])}
 
 function! s:error_type(type, nr) abort
   if a:type ==? 'W'
@@ -67,18 +68,54 @@ function! s:syntax() abort
 endfunction
 
 function! fzf_quickfix#run(...) abort
-  call fzf#run(fzf#wrap({
-        \ 'source': map(a:1 ? getloclist(0) : getqflist(), 's:format_error(v:val)'),
+  let [type, args] = (a:0 && type(a:1) == type('')) ?
+        \ [a:1, a:000[1:]] : ['', a:000]
+  let wrap_dic = {
+        \ 'source': map(type ? getloclist(0) : getqflist(), 's:format_error(v:val)'),
         \ 'sink': function('s:error_handler'),
-        \ 'options': printf('--prompt="%s> "', (a:1 ? 'LocList' : 'QfList'))
-        \ }))
+        \ 'options': [printf('--prompt="%s> "', (type ? 'LocList' : 'QfList'))]
+      \ }
+
+  if type(args[0]) == type({}) | let wrap_dic = s:extend_opts(wrap_dic, args[0], 0) | endif
+  call fzf#run(fzf#wrap(wrap_dic))
 
   if g:fzf_quickfix_syntax_on
     call s:syntax()
   endif
 endfunction
 
+function! s:extend_opts(dict, eopts, prepend)
+  if empty(a:eopts)
+    return
+  endif
+
+  let dict = copy(a:dict)
+  let opts = copy(a:eopts)
+
+  if has_key(dict, 'options') && has_key(a:eopts, 'options')
+    if type(dict.options) == s:TYPE.list && type(a:eopts.options) == s:TYPE.list
+      if a:prepend
+        let dict.options = extend(copy(a:eopts.options), dict.options)
+      else
+        call extend(dict.options, a:eopts.options)
+      endif
+    else
+      let all_opts = a:prepend ? [a:eopts.options, dict.options] : [dict.options, a:eopts.options]
+      let dict.options = join(map(all_opts, 'type(v:val) == s:TYPE.list ? join(map(copy(v:val), "fzf#shellescape(v:val)")) : v:val'))
+    endif
+  elseif has_key(a:eopts, 'options')
+    let dict.options = a:eopts.options
+  endif
+
+  if has_key(a:eopts, 'options')
+    call remove(opts, 'options')  " unlet opts.options
+  endif
+
+  return extend(dict, opts)
+endfunction
+
 let &cpoptions = s:keep_cpo
 unlet s:keep_cpo
+
 
 " vim: et sw=2 ts=2
