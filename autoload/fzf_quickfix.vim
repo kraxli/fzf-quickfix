@@ -67,17 +67,19 @@ function! s:syntax() abort
   endif
 endfunction
 
-function! fzf_quickfix#run(...) abort
-  let [type, args] = (a:0 && type(a:1) == type('')) ?
-        \ [a:1, a:000[1:]] : ['', a:000]
+function! fzf_quickfix#run(query, loc_list, opts, bang) abort
+  let is_loclist = get(a:, 'loc_list', '0')
+  let opts = get(a:, 'opts', {})
+  let bang = get(a:, 'bang', 0)
+
   let wrap_dic = {
-        \ 'source': map(type ? getloclist(0) : getqflist(), 's:format_error(v:val)'),
+        \ 'source': map(is_loclist ? getloclist(0) : getqflist(), 's:format_error(v:val)'),
         \ 'sink': function('s:error_handler'),
-        \ 'options': [printf('--prompt="%s> "', (type ? 'LocList' : 'QfList'))]
+        \ 'options': [printf('--prompt="%s> "', (is_loclist ? 'LocList' : 'Qfix')), '--query', a:query]
       \ }
 
-  if type(args[0]) == type({}) | let wrap_dic = s:extend_opts(wrap_dic, args[0], 0) | endif
-  call fzf#run(fzf#wrap(wrap_dic))
+  if type(opts) == type({}) | let wrap_dic = s:extend_opts(wrap_dic, opts, 0) | endif
+  call fzf#run(fzf#wrap(wrap_dic, a:bang))
 
   if g:fzf_quickfix_syntax_on
     call s:syntax()

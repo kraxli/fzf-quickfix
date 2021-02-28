@@ -16,8 +16,10 @@ if !exists('g:fzf_quickfix_syntax_on')
   let g:fzf_quickfix_syntax_on = 1
 endif
 
-execute 'command! -bang' get(g:, 'fzf_command_prefix', '')
-      \ . 'Quickfix call fzf_quickfix#run("<bang>" ==# "!")'
+execute 'command! -bang -nargs=?' get(g:, 'fzf_command_prefix', '')
+      \ . 'Quickfix call fzf_quickfix#run(<q-args>, "0", "" ,<bang>0)'
+execute 'command! -bang -nargs=?' get(g:, 'fzf_command_prefix', '')
+      \ . 'LocList call fzf_quickfix#run(<q-args>, "1", "" ,<bang>0)'
 
 let &cpoptions = s:keep_cpo
 unlet s:keep_cpo
